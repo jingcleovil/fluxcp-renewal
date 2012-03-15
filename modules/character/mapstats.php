@@ -13,7 +13,7 @@ if (($hideLevel=(int)Flux::config('HideFromMapStats')) > 0 && !$auth->allowedToS
 $sql .= "WHERE online > 0 ";
 
 if ($hideLevel > 0 && !$auth->allowedToSeeHiddenMapStats) {
-	$sql   .= "AND login.level < ? ";
+	$sql   .= "AND login.group_id < ? ";
 	$bind[] = $hideLevel;
 }
 

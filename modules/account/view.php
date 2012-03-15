@@ -34,7 +34,7 @@ if (!$isMine) {
 	$sql  = "SELECT login.*, {$creditColumns}, {$createColumns} FROM {$server->loginDatabase}.login ";
 	$sql .= "LEFT OUTER JOIN {$server->loginDatabase}.{$creditsTable} AS credits ON login.account_id = credits.account_id ";
 	$sql .= "LEFT OUTER JOIN {$server->loginDatabase}.{$createTable} AS created ON login.account_id = created.account_id ";
-	$sql .= "WHERE login.sex != 'S' AND login.level >= 0 AND login.account_id = ? LIMIT 1";
+	$sql .= "WHERE login.sex != 'S' AND login.group_id >= 0 AND login.account_id = ? LIMIT 1";
 	$sth  = $server->connection->getStatement($sql);
 	$sth->execute(array($accountID));
 	
@@ -49,7 +49,7 @@ else {
 	$title = Flux::message('AccountViewTitle3');
 }
 
-$banSuperior = $account && (($account->level > $session->account->level && $auth->allowedToBanHigherPower) || $account->level <= $session->account->level);
+$banSuperior = $account && (($account->group_id > $session->account->group_id && $auth->allowedToBanHigherPower) || $account->group_id <= $session->account->group_id);
 $canTempBan  = !$isMine && $banSuperior && $auth->allowedToTempBanAccount;
 $canPermBan  = !$isMine && $banSuperior && $auth->allowedToPermBanAccount;
 $tempBanned  = $account && $account->unban_time > 0;

@@ -25,7 +25,7 @@ $createColumns  = 'created.confirmed, created.confirm_code, created.reg_date';
 $sqlpartial     = "LEFT OUTER JOIN {$server->loginDatabase}.{$creditsTable} AS credits ON login.account_id = credits.account_id ";
 $sqlpartial    .= "LEFT OUTER JOIN {$server->loginDatabase}.{$accountTable} AS createlog ON login.account_id = createlog.account_id ";
 $sqlpartial    .= "LEFT OUTER JOIN {$server->loginDatabase}.{$createTable} AS created ON login.account_id = created.account_id ";
-$sqlpartial    .= "WHERE login.sex != 'S' AND login.level >= 0 ";
+$sqlpartial    .= "WHERE login.sex != 'S' AND login.group_id >= 0 ";
 
 $accountID = $params->get('account_id');
 if ($accountID) {
@@ -102,7 +102,7 @@ else {
 	
 	if (in_array($accountLevelOp, $opValues) && trim($accountLevel) != '') {
 		$op          = $opMapping[$accountLevelOp];
-		$sqlpartial .= "AND login.level $op ? ";
+		$sqlpartial .= "AND login.group_id $op ? ";
 		$bind[]      = $accountLevel;
 	}
 	
@@ -141,7 +141,7 @@ $sth->execute($bind);
 $paginator = $this->getPaginator($sth->fetch()->total);
 $paginator->setSortableColumns(array(
 	'login.account_id' => 'asc', 'login.userid', 'login.user_pass',
-	'login.sex', 'level', 'state', 'balance',
+	'login.sex', 'group_id', 'state', 'balance',
 	'login.email', 'logincount', 'lastlogin', 'last_ip',
 	'reg_date'
 ));

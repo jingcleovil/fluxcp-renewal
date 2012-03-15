@@ -383,7 +383,7 @@ class Flux_Template {
 	public function getMenuItems($adminMenus = false)
 	{
 		$auth           = Flux_Authorization::getInstance();
-		$accountLevel   = Flux::$sessionData->account->level;
+		$accountLevel   = Flux::$sessionData->account->group_id;
 		$adminMenuLevel = Flux::config('AdminMenuLevel');
 		$defaultAction  = Flux_Dispatcher::getInstance()->defaultAction;
 		$menuItems      = Flux::config('MenuItems');

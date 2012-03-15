@@ -33,7 +33,7 @@ if (Flux::config('HideTempBannedZenyRank')) {
 	$sql .= "AND (login.unban_time IS NULL OR login.unban_time = 0) ";
 }
 
-$sql .= "AND login.level < ? ";
+$sql .= "AND login.group_id < ? ";
 
 if ($days=Flux::config('ZenyRankingThreshold')) {
 	$sql    .= 'AND TIMESTAMPDIFF(DAY, login.lastlogin, NOW()) <= ? ';
@@ -41,7 +41,7 @@ if ($days=Flux::config('ZenyRankingThreshold')) {
 }
 
 // Whether or not the character is allowed to hide themselves from the Zeny Ranking.
-$sql .= "AND (((hide_from_zr.value IS NULL OR hide_from_zr.value = 0) AND login.level >= ?) OR login.level < ?) ";
+$sql .= "AND (((hide_from_zr.value IS NULL OR hide_from_zr.value = 0) AND login.group_id >= ?) OR login.group_id < ?) ";
 $bind[] = $auth->getLevelToHideFromZenyRank;
 $bind[] = $auth->getLevelToHideFromZenyRank;
 

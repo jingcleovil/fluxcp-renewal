@@ -66,7 +66,7 @@ if ($auth->allowedToSearchWhosOnline) {
 
 // Hide levels greater than or equal to.
 if (($hideLevel=Flux::config('HideFromWhosOnline')) && !$auth->allowedToIgnoreHiddenPref2) {
-	$sqlpartial .= "AND login.level < ? ";
+	$sqlpartial .= "AND login.group_id < ? ";
 	$bind[] = $hideLevel;
 }
 

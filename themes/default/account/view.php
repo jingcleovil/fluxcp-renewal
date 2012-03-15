@@ -31,7 +31,7 @@
 			<?php endif ?>
 		</td>
 		<th><?php echo htmlspecialchars(Flux::message('AccountLevelLabel')) ?></th>
-		<td><?php echo (int)$account->level ?></td>
+		<td><?php echo (int)$account->group_id ?></td>
 	</tr>
 	<tr>
 		<th><?php echo htmlspecialchars(Flux::message('GenderLabel')) ?></th>

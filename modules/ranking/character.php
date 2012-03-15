@@ -29,7 +29,7 @@ if (Flux::config('HideTempBannedCharRank')) {
 	$sql .= "AND (login.unban_time IS NULL OR login.unban_time = 0) ";
 }
 
-$sql .= "AND login.level < ? ";
+$sql .= "AND login.group_id < ? ";
 
 if ($days=Flux::config('CharRankingThreshold')) {
 	$sql    .= 'AND TIMESTAMPDIFF(DAY, login.lastlogin, NOW()) <= ? ';

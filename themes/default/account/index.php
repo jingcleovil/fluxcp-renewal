@@ -82,7 +82,7 @@
 		<th><?php echo $paginator->sortableColumn('login.userid', Flux::message('UsernameLabel')) ?></th>
 		<?php if ($showPassword): ?><th><?php echo $paginator->sortableColumn('login.user_pass', Flux::message('PasswordLabel')) ?></th><?php endif ?>
 		<th><?php echo $paginator->sortableColumn('login.sex', Flux::message('GenderLabel')) ?></th>
-		<th><?php echo $paginator->sortableColumn('level', Flux::message('AccountLevelLabel')) ?></th>
+		<th><?php echo $paginator->sortableColumn('group_id', Flux::message('AccountLevelLabel')) ?></th>
 		<th><?php echo $paginator->sortableColumn('state', Flux::message('AccountStateLabel')) ?></th>
 		<th><?php echo $paginator->sortableColumn('balance', Flux::message('CreditBalanceLabel')) ?></th>
 		<th><?php echo $paginator->sortableColumn('login.email', Flux::message('EmailAddressLabel')) ?></th>
@@ -109,7 +109,7 @@
 				<span class="not-applicable"><?php echo htmlspecialchars(Flux::message('UnknownLabel')) ?></span>
 			<?php endif ?>
 		</td>
-		<td><?php echo (int)$account->level ?></td>
+		<td><?php echo (int)$account->group_id ?></td>
 		<td>
 			<?php if (!$account->confirmed && $account->confirm_code): ?>
 				<span class="account-state state-pending">

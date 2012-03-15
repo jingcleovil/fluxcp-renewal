@@ -13,7 +13,7 @@ $creditColumns = 'credits.balance, credits.last_donation_date, credits.last_dona
 
 $sql  = "SELECT login.*, {$creditColumns} FROM {$server->loginDatabase}.login ";
 $sql .= "LEFT OUTER JOIN {$creditsTable} AS credits ON login.account_id = credits.account_id ";
-$sql .= "WHERE login.sex != 'S' AND login.level >= 0 AND login.account_id = ? LIMIT 1";
+$sql .= "WHERE login.sex != 'S' AND login.group_id >= 0 AND login.account_id = ? LIMIT 1";
 $sth  = $server->connection->getStatement($sql);
 $sth->execute(array($accountID));
 
@@ -22,7 +22,7 @@ $account = $sth->fetch();
 $isMine  = false;
 
 if ($account) {
-	if ($account->level > $session->account->level && !$auth->allowedToEditHigherPower) {
+	if ($account->group_id > $session->account->group_id && !$auth->allowedToEditHigherPower) {
 		$this->deny();
 	}
 	
@@ -41,16 +41,16 @@ if ($account) {
 		$loginCount = (int)$params->get('logincount');
 		$lastLogin  = $params->get('lastlogin_date');
 		$lastIP     = trim($params->get('last_ip'));
-		$level      = (int)$params->get('level');
+		$group_id   = (int)$params->get('group_id');
 		$balance    = (int)$params->get('balance');
 		
-		if ($isMine && $account->level != $level) {
+		if ($isMine && $account->group_id != $group_id) {
 			$errorMessage = Flux::message('CannotModifyOwnLevel');
 		}
-		elseif ($account->level != $level && !$auth->allowedToEditAccountLevel) {
+		elseif ($account->group_id != $group_id && !$auth->allowedToEditAccountLevel) {
 			$errorMessage = Flux::message('CannotModifyAnyLevel');
 		}
-		elseif ($level > $session->account->level) {
+		elseif ($group_id > $session->account->group_id) {
 			$errorMessage = Flux::message('CannotModifyLevelSoHigh');
 		}
 		elseif (!in_array($gender, array('M', 'F'))) {
@@ -75,8 +75,8 @@ if ($account) {
 			$sql .= "sex = :sex, logincount = :logincount, lastlogin = :lastlogin, last_ip = :last_ip";
 			
 			if ($auth->allowedToEditAccountLevel) {
-				$sql .= ", level = :level";
-				$bind['level'] = $level;
+				$sql .= ", group_id = :group_id";
+				$bind['group_id'] = $group_id;
 			}
 			
 			$bind['account_id'] = $account->account_id;

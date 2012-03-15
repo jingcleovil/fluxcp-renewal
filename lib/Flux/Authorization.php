@@ -73,7 +73,7 @@ class Flux_Authorization {
 	{
 		$accessConfig = $this->config->get('modules');
 		$accessKeys   = array("$moduleName.$actionName", "$moduleName.*");
-		$accountLevel = $this->session->account->level;
+		$accountLevel = $this->session->account->group_id;
 		$existentKeys = array();
 		
 		if ($accessConfig instanceOf Flux_Config) {
@@ -111,7 +111,7 @@ class Flux_Authorization {
 	public function featureAllowed($featureName)
 	{
 		$accessConfig = $this->config->get('features');
-		$accountLevel = $this->session->account->level;
+		$accountLevel = $this->session->account->group_id;
 		
 		if (($accessConfig instanceOf Flux_Config)) {
 			$accessLevel = $accessConfig->get($featureName);

@@ -124,7 +124,7 @@ class Flux_SessionData {
 			}
 		}
 		else {
-			$this->account = new Flux_DataObject(null, array('level' => AccountLevel::UNAUTH));
+			$this->account = new Flux_DataObject(null, array('group_id' => AccountLevel::UNAUTH));
 		}
 		
 		//if (!$this->isLoggedIn()) {
@@ -240,7 +240,7 @@ class Flux_SessionData {
 	 */
 	public function isLoggedIn()
 	{
-		return $this->account->level >= AccountLevel::NORMAL;
+		return $this->account->group_id >= AccountLevel::NORMAL;
 	}
 	
 	/**
@@ -291,7 +291,7 @@ class Flux_SessionData {
 		
 		$sql  = "SELECT login.*, {$creditColumns} FROM {$loginAthenaGroup->loginDatabase}.login ";
 		$sql .= "LEFT OUTER JOIN {$loginAthenaGroup->loginDatabase}.{$creditsTable} AS credits ON login.account_id = credits.account_id ";
-		$sql .= "WHERE login.sex != 'S' AND login.level >= 0 AND login.userid = ? LIMIT 1";
+		$sql .= "WHERE login.sex != 'S' AND login.group_id >= 0 AND login.userid = ? LIMIT 1";
 		$smt  = $loginAthenaGroup->connection->getStatement($sql);
 		$res  = $smt->execute(array($username));
 		
@@ -351,7 +351,7 @@ class Flux_SessionData {
 		
 		$sql  = "SELECT login.*, {$creditColumns} FROM {$loginAthenaGroup->loginDatabase}.login ";
 		$sql .= "LEFT OUTER JOIN {$loginAthenaGroup->loginDatabase}.{$creditsTable} AS credits ON login.account_id = credits.account_id ";
-		$sql .= "WHERE login.sex != 'S' AND login.level >= 0 AND login.userid = ? LIMIT 1";
+		$sql .= "WHERE login.sex != 'S' AND login.group_id >= 0 AND login.userid = ? LIMIT 1";
 		$smt  = $loginAthenaGroup->connection->getStatement($sql);
 		$res  = $smt->execute(array($username));
 		

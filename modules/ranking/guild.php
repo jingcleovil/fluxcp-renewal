@@ -10,7 +10,7 @@ $col .= "(SELECT COUNT(castle_id) FROM {$server->charMapDatabase}.guild_castle W
 $sql  = "SELECT $col FROM {$server->charMapDatabase}.guild AS g ";
 $sql .= "LEFT JOIN {$server->charMapDatabase}.`char` AS ch ON ch.char_id = g.char_id ";
 $sql .= "LEFT JOIN {$server->loginDatabase}.login ON login.account_id = ch.account_id ";
-$sql .= "WHERE login.level < ? ";
+$sql .= "WHERE login.group_id < ? ";
 $sql .= "ORDER BY g.guild_lv DESC, castles DESC, g.exp DESC, (g.average_lv + members) DESC, ";
 $sql .= "g.average_lv DESC, members DESC, g.max_member DESC, g.next_exp ASC ";
 $sql .= "LIMIT ".(int)Flux::config('GuildRankingLimit');

@@ -61,7 +61,7 @@ $info['parties'] += $sth->fetch()->total;
 $sql = "SELECT SUM(`char`.zeny) AS total FROM {$server->charMapDatabase}.`char` ";
 if ($hideLevel=Flux::config('InfoHideZenyLevel')) {
 	$sql .= "LEFT JOIN {$server->loginDatabase}.login ON login.account_id = `char`.account_id ";
-	$sql .= "WHERE login.level < ?";
+	$sql .= "WHERE login.group_id < ?";
 	$bind = array($hideLevel);
 }
 if (Flux::config('HideTempBannedStats')) {
