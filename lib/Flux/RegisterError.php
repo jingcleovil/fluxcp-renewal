@@ -14,5 +14,7 @@ class Flux_RegisterError extends Flux_Error {
 	const INVALID_SERVER         = 9;
 	const INVALID_SECURITY_CODE  = 10;
 	const INVALID_USERNAME       = 11;
+	const INVALID_BIRTHDATE_FORMAT  = 12;
+	const BIRTHDATE_MUSTNOTBE_EMPTY  = 13;
 }
 ?>

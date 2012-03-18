@@ -97,7 +97,7 @@ class Flux_LoginServer extends Flux_BaseServer {
 	/**
 	 *
 	 */
-	public function register($username, $password, $confirmPassword, $email, $gender, $securityCode)
+	public function register($username, $password, $confirmPassword, $email, $gender, $securityCode,$birthdate)
 	{
 		if (preg_match('/[^' . Flux::config('UsernameAllowedChars') . ']/', $username)) {
 			throw new Flux_RegisterError('Invalid character(s) used in username', Flux_RegisterError::INVALID_USERNAME);
@@ -116,6 +116,12 @@ class Flux_LoginServer extends Flux_BaseServer {
 		}
 		elseif ($password !== $confirmPassword) {
 			throw new Flux_RegisterError('Passwords do not match', Flux_RegisterError::PASSWORD_MISMATCH);
+		}
+		elseif (!preg_match('#^((19|20)?[0-9]{2}[- /.](0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01]))*$#', $birthdate)) {
+			throw new Flux_RegisterError('Birthdate must be YYYY-MM-DD', Flux_RegisterError::INVALID_BIRTHDATE_FORMAT);
+		}
+		elseif (empty($birthdate)) {
+			throw new Flux_RegisterError('Birthdate field must not be empty', Flux_RegisterError::BIRTHDATE_MUSTNOTBE_EMPTY);
 		}
 		elseif (!preg_match('/(.+?)@(.+?)/', $email)) {
 			throw new Flux_RegisterError('Invalid e-mail address', Flux_RegisterError::INVALID_EMAIL_ADDRESS);
@@ -173,9 +179,9 @@ class Flux_LoginServer extends Flux_BaseServer {
 			$password = Flux::hashPassword($password);
 		}
 		
-		$sql = "INSERT INTO {$this->loginDatabase}.login (userid, user_pass, email, sex, group_id) VALUES (?, ?, ?, ?, ?)";
+		$sql = "INSERT INTO {$this->loginDatabase}.login (userid, user_pass, email, sex, group_id, birthdate) VALUES (?, ?, ?, ?, ?, ?)";
 		$sth = $this->connection->getStatement($sql);
-		$res = $sth->execute(array($username, $password, $email, $gender, (int)$this->config->getLevel()));
+		$res = $sth->execute(array($username, $password, $email, $gender, (int)$this->config->getLevel(),$birthdate));
 		
 		if ($res) {
 			$idsth = $this->connection->getStatement("SELECT LAST_INSERT_ID() AS account_id");

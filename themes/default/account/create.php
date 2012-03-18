@@ -46,6 +46,11 @@
 		</tr>
 		
 		<tr>
+			<th><label for="register_birth_date"><?php echo htmlspecialchars(Flux::message('BirthDateLabel')) ?></label></th>
+			<td><input type="text" name="birth_date" id="register_birth_date" value="<?php echo htmlspecialchars($params->get('birth_date')) ?>" /><i>(Format: YYYY-MM-DD)</i></td>
+		</tr>
+		
+		<tr>
 			<th><label><?php echo htmlspecialchars(Flux::message('AccountGenderLabel')) ?></label></th>
 			<td>
 				<p>

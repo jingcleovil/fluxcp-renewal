@@ -72,13 +72,15 @@
 	</tr>
 	<tr>
 		<th><?php echo htmlspecialchars(Flux::message('LastLoginDateLabel')) ?></th>
-		<td colspan="3">
+		<td>
 			<?php if (!$account->lastlogin || $account->lastlogin == '0000-00-00 00:00:00'): ?>
 				<span class="not-applicable"><?php echo htmlspecialchars(Flux::message('NeverLabel')) ?></span>
 			<?php else: ?>
 				<?php echo $this->formatDateTime($account->lastlogin) ?>
 			<?php endif ?>
 		</td>
+		<th><?php echo htmlspecialchars(Flux::message('AccountBirthdateLabel')) ?></th>
+		<td><?php echo htmlspecialchars($account->birthdate) ?></td>
 	</tr>
 	<tr>
 		<th><?php echo htmlspecialchars(Flux::message('LastUsedIpLabel')) ?></th>
