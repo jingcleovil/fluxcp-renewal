@@ -22,7 +22,7 @@ if (count($_POST)) {
 			$loginAthenaGroup = $session->loginAthenaGroup;
 		}
 
-		$sql  = "SELECT account_id, user_pass, level FROM {$loginAthenaGroup->loginDatabase}.login WHERE ";
+		$sql  = "SELECT account_id, user_pass, group_id FROM {$loginAthenaGroup->loginDatabase}.login WHERE ";
 		if ($loginAthenaGroup->loginServer->config->getNoCase()) {
 			$sql .= 'LOWER(userid) = LOWER(?) ';
 		}
@@ -35,7 +35,7 @@ if (count($_POST)) {
 
 		$row = $sth->fetch();
 		if ($row) {
-			if ($row->level >= Flux::config('NoResetPassLevel')) {
+			if ($row->group_id >= Flux::config('NoResetPassLevel')) {
 				$errorMessage = Flux::message('ResetPassDisallowed');
 			}
 			else {
